@@ -1,25 +1,49 @@
-// SoundBall.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { LiveAudioVisualizer } from 'react-audio-visualize';
 
-function SoundBall({ audioData }) {
-  // Находим максимальное значение в массиве audioData
-  const volume = Math.max(...audioData);
-  // Ограничиваем размер шарика, чтобы он не становился бесконечнымjkjkj
-  const maxBallSize = 200; // Максимальный размер шарика
-  const ballSize = Math.min(volume, maxBallSize); // Используем меньшее из двух значений
+const SoundBall = () => {
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [ballSize, setBallSize] = useState(50); // Начальный размер шарика
+
+  useEffect(() => {
+    // Запрашиваем доступ к микрофону и устанавливаем mediaRecorder
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      const mr = new MediaRecorder(stream);
+      setMediaRecorder(mr);
+    }).catch(error => {
+      console.error('Ошибка доступа к микрофону:', error);
+    });
+  }, []);
+
+  const handleData = (audioData) => {
+    // Обработка аудиоданных для изменения размера шарика
+    const volume = Math.max(...audioData); // Получаем громкость
+    const newBallSize = Math.min(200, (volume / 255) * 200); // Рассчитываем размер шарика
+    setBallSize(newBallSize);
+  };
 
   return (
-    <div
-      style={{
-        width: ballSize + 'px', // Добавляем 'px' к значению размера
-        height: ballSize + 'px', // Добавляем 'px' к значению размера
-        borderRadius: '50%',
-        backgroundColor: 'blue',
-        transition: 'width 0.1s, height 0.1s',
-        margin: '10px auto'
-      }}
-    />
+    <div>
+      {mediaRecorder && (
+        <LiveAudioVisualizer
+          mediaRecorder={mediaRecorder}
+          width={500}
+          height={500}
+          onAudioProcess={handleData}
+        />
+      )}
+      <div
+        style={{
+          width: ballSize,
+          height: ballSize,
+          borderRadius: '50%',
+          backgroundColor: 'blue',
+          transition: 'width 0.1s, height 0.1s',
+          margin: '10px auto'
+        }}
+      />
+    </div>
   );
-}
+};
 
 export default SoundBall;
