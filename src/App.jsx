@@ -32,7 +32,11 @@ const App = () => {
      }
      let averageVolume = sum / bufferLength;
 
-     setBallSize(averageVolume);
+     if (ballSize < averageVolume) {
+      
+       setBallSize(averageVolume);
+     }
+
 
      // Повторяем функцию каждые 100 миллисекунд
      setTimeout(updateVolume, 100);
