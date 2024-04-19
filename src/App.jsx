@@ -21,7 +21,7 @@ const App = () => {
         .join("")
         .toLowerCase();
       setText(transcript); 
-      console.log(e);
+      setIsA(e);
       if (transcript == 'проверка' || transcript == "a" || transcript == 'A' || transcript == "A") { // Используем includes вместо строгого сравнения
         setBallSize((currentSize) => currentSize + 10);
       }
