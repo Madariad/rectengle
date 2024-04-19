@@ -6,7 +6,7 @@ const App = () => {
   const [text, setText] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [ballSize, setBallSize] = useState(40); // Минимальный размер шарика
-  const minVolume = 5; // Минимальная громкость для изменения размера шарика
+  const minVolume = 40; // Минимальная громкость для изменения размера шарика
 
   function val() {
     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
