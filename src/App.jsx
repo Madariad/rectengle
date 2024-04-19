@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [text, setText] = useState(''); // Используем useState для управления текстом
-  const [isListening, setIsListening] = useState(false); // Состояние прослушивания
+  const [text, setText] = useState(''); 
+  const [isListening, setIsListening] = useState(false); 
 
-  const [ballSize, setBallSize] = useState(100); // Начальный размер шарика
+  const [ballSize, setBallSize] = useState(100); 
 
   const [IsA, setIsA] = useState('false'); 
 
@@ -12,35 +12,35 @@ const App = () => {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new window.SpeechRecognition();
     recognition.interimResults = true;
-    recognition.continuous = true; // Установка непрерывного распознавания
+    recognition.continuous = true; 
 
     recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
         .map((result) => result[0])
         .map((result) => result.transcript)
         .join("")
-        .toLowerCase(); // Приводим к нижнему регистру
-      setText(transcript); // Обновляем состояние текста
-      setIsA(e.results);
+        .toLowerCase();
+      setText(transcript); 
+      console.log(e.results);
       if (transcript == 'проверка' || transcript == "a" || transcript == 'A' || transcript == "A") { // Используем includes вместо строгого сравнения
         setBallSize((currentSize) => currentSize + 10);
       }
     };
 
     if (isListening) {
-      recognition.start(); // Запускаем распознавание
+      recognition.start(); 
     }
 
     recognition.onend = () => {
       if (isListening) {
-        recognition.start(); // Перезапускаем распознавание, если нужно
+        recognition.start(); 
       }
     };
 
     return () => {
-      recognition.stop(); // Очистка при размонтировании компонента
+      recognition.stop(); 
     };
-  }, [isListening]); // Зависимость от состояния прослушивания
+  }, [isListening]); 
 
   return (
     <div>
@@ -53,7 +53,7 @@ const App = () => {
       
 
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
-            {/* Шарик */}
+       
           </div>
     </div>
   );
