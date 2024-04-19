@@ -21,8 +21,8 @@ const App = () => {
         .join("")
         .toLowerCase(); // Приводим к нижнему регистру
       setText(transcript); // Обновляем состояние текста
-      if (text == 'проверка' || transcript == "a" || transcript == 'A' || transcript == "A") { // Используем includes вместо строгого сравнения
-        setIsA('True');
+      setIsA(transcript);
+      if (transcript == 'проверка' || transcript == "a" || transcript == 'A' || transcript == "A") { // Используем includes вместо строгого сравнения
         setBallSize((currentSize) => currentSize + 10);
       }
     };
@@ -47,6 +47,7 @@ const App = () => {
       <button onClick={() => setIsListening(true)}>Начать прослушивание</button>
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
       <p>{text}</p>
+
       <p>{IsA}</p>
       <p>{ballSize}</p>
       
