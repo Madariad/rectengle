@@ -5,6 +5,7 @@ const App = () => {
   const [isListening, setIsListening] = useState(false);
   const [ballSize, setBallSize] = useState(100);
   const [recognition, setRecognition] = useState(null);
+  
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -29,9 +30,9 @@ const App = () => {
         .join("")
         .toLowerCase();
       setText(transcript);
-     
-      setBallSize((currentSize) => currentSize + 20);
-      
+      if (transcript.includes('a')) {
+        setBallSize((currentSize) => currentSize + 10);
+      }
     };
 
     if (isListening) {
