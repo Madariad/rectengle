@@ -8,10 +8,45 @@ const App = () => {
 
   const [IsA, setIsA] = useState('false');
   
-  // data = {
-  //   'a': () => setIsA('true'),
-  // }
-  
+  function val() {
+
+     // Запрашиваем доступ к микрофону
+ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+ .then((stream) => {
+   const audioContext = new AudioContext();
+   const analyser = audioContext.createAnalyser();
+   const microphone = audioContext.createMediaStreamSource(stream);
+   microphone.connect(analyser);
+   analyser.fftSize = 256;
+   const bufferLength = analyser.frequencyBinCount;
+   const dataArray = new Uint8Array(bufferLength);
+
+   // Функция для обновления громкости
+   function updateVolume() {
+     analyser.getByteFrequencyData(dataArray);
+
+     // Вычисляем среднюю громкость
+     let sum = 0;
+     for(let i = 0; i < bufferLength; i++) {
+       sum += dataArray[i];
+     }
+     let averageVolume = sum / bufferLength;
+
+     setBallSize(averageVolume);
+
+     // Повторяем функцию каждые 100 миллисекунд
+     setTimeout(updateVolume, 100);
+   }
+
+   // Запускаем функцию обновления громкости
+   updateVolume();
+ })
+ .catch((error) => {
+   console.error('Ошибка при получении медиа-потока:', error);
+ });
+ 
+    
+  }
 
   useEffect(() => {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -32,11 +67,8 @@ const App = () => {
         .toLowerCase();
       setText(transcript); 
        
-      transcript.at(-1) === 'а'? setBallSize((currentSize) => currentSize + 10) : setBallSize((currentSize) => currentSize - 10)
-      // setIsA(arr);
-      // if (IsA == transcript.at(-1) === 'а') { 
-      //   setBallSize((currentSize) => currentSize + 10);
-      // }
+      transcript.at(-1) === 'а'? val() : ''
+ 
     };
 
     if (isListening) {
