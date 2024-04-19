@@ -49,7 +49,7 @@ const App = () => {
     <div>
       <button onClick={() => setIsListening(true)}>Начать прослушивание</button>
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
-      <p>{text}</p>
+      <p>{text == 'a' ? 'y' : 'n'}</p>
       <p>{ballSize}</p>
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
         {/* Шарик */}
