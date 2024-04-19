@@ -23,7 +23,7 @@ const App = () => {
         .toLowerCase();
       setText(transcript); 
       // setIsA(e);
-      if (transcript == 'проверка' || transcript.indexOf('a') > 0) { // Используем includes вместо строгого сравнения
+      if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
         setBallSize((currentSize) => currentSize + 10);
       }
     };
