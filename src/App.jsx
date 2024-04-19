@@ -15,7 +15,7 @@ const App = () => {
     const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
     const speechRecognitionList = new SpeechGrammarList();
 
-    const grammar = '#JSGF V1.0; grammar letters; public <letter> = a ;';
+    const grammar = '#JSGF V1.0; grammar a; public <letter> = a ;';
     speechRecognitionList.addFromString(grammar, 1);
     speechRecognitionInstance.grammars = speechRecognitionList;
 
