@@ -32,9 +32,9 @@ const App = () => {
         .toLowerCase();
       setText(transcript); 
        
-      setIsA(transcript.at(-1) === 'а'? 'true' : 'false');
-      setIsA(arr);
-      if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
+      // setIsA(transcript.at(-1) === 'а'? 'true' : 'false');
+      // setIsA(arr);
+      if (IsA == transcript.at(-1) === 'а') { 
         setBallSize((currentSize) => currentSize + 10);
       }
     };
