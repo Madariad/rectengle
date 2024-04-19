@@ -32,11 +32,11 @@ const App = () => {
         .toLowerCase();
       setText(transcript); 
        
-      // setIsA(transcript.at(-1) === 'а'? 'true' : 'false');
+      transcript.at(-1) === 'а'? setBallSize((currentSize) => currentSize + 10) : setBallSize((currentSize) => currentSize - 10)
       // setIsA(arr);
-      if (IsA == transcript.at(-1) === 'а') { 
-        setBallSize((currentSize) => currentSize + 10);
-      }
+      // if (IsA == transcript.at(-1) === 'а') { 
+      //   setBallSize((currentSize) => currentSize + 10);
+      // }
     };
 
     if (isListening) {
