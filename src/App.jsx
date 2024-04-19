@@ -13,6 +13,7 @@ const App = () => {
     const recognition = new window.SpeechRecognition();
     recognition.interimResults = true;
     recognition.continuous = true; 
+    recognition.lang = 'ru-RU';
 
     recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
@@ -21,7 +22,7 @@ const App = () => {
         .join("")
         .toLowerCase();
       setText(transcript); 
-      setIsA(e);
+      // setIsA(e);
       if (transcript == 'проверка' || transcript == "a" || transcript == 'A' || transcript == "A") { // Используем includes вместо строгого сравнения
         setBallSize((currentSize) => currentSize + 10);
       }
