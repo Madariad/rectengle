@@ -1,56 +1,55 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [text, setText] = useState('');
-  const [isListening, setIsListening] = useState(false);
   const [ballSize, setBallSize] = useState(100);
-  const [recognition, setRecognition] = useState(null);
+  const [audioContext, setAudioContext] = useState(null);
+  const [analyser, setAnalyser] = useState(null);
+  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const speechRecognitionInstance = new SpeechRecognition();
-    setRecognition(speechRecognitionInstance);
+    if (!audioContext) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const context = new AudioContext();
+      const analyser = context.createAnalyser();
+      setAudioContext(context);
+      setAnalyser(analyser);
+    }
 
-    const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
-    const speechRecognitionList = new SpeechGrammarList();
+    if (audioContext && isListening) {
+      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
 
-    const grammar = '#JSGF V1.0; grammar letters; public <letter> = a ;';
-    speechRecognitionList.addFromString(grammar, 1);
-    speechRecognitionInstance.grammars = speechRecognitionList;
+        const updateBallSize = () => {
+          analyser.getByteFrequencyData(dataArray);
+          let sum = 0;
+          for (let i = 0; i < bufferLength; i++) {
+            sum += dataArray[i];
+          }
+          const averageVolume = sum / bufferLength;
+          const newBallSize = Math.min(Math.max(100, averageVolume * 2), 300); // Примерный расчет размера
+          setBallSize(newBallSize);
+          requestAnimationFrame(updateBallSize);
+        };
 
-    speechRecognitionInstance.interimResults = true;
-    speechRecognitionInstance.continuous = true;
-    speechRecognitionInstance.lang = 'ru-RU';
-
-    speechRecognitionInstance.onresult = (e) => {
-      const transcript = Array.from(e.results)
-        .map((result) => result[0])
-        .map((result) => result.transcript)
-        .join("")
-        .toLowerCase();
-      setText(transcript);
-     
-      setBallSize((currentSize) => currentSize + 20);
-      
-    };
-
-    if (isListening) {
-      speechRecognitionInstance.start();
+        updateBallSize();
+      });
     }
 
     return () => {
-      speechRecognitionInstance.stop();
-      speechRecognitionInstance.onresult = null;
-      speechRecognitionInstance.onend = null;
+      if (audioContext) {
+        audioContext.close();
+      }
     };
-  }, [isListening]);
+  }, [audioContext, isListening]);
 
   return (
     <div>
       <button onClick={() => setIsListening(true)}>Начать прослушивание</button>
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
-      <p>{text}</p>
-      <p>{ballSize}</p>
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
         {/* Шарик */}
       </div>
