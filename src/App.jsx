@@ -1,62 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 const App = () => {
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [isListening, setIsListening] = useState(false);
-  const [spokenLetter, setSpokenLetter] = useState('');
-  const [volume, setVolume] = useState(0); // Имитация громкости звука
+  const [ballSize, setBallSize] = useState(100); // Начальный размер шарика
+  const recognition = useRef(null);
 
   // Функция для начала прослушивания
   const startListening = () => {
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.lang = 'ru-RU';
-    recognition.start();
+    recognition.current = new window.webkitSpeechRecognition();
+    recognition.current.continuous = true; // Прослушивание без остановки
+    recognition.current.lang = 'ru-RU';
+    recognition.current.start();
 
-    recognition.onresult = (event) => {
-      const speechResult = event.results[0][0].transcript.toUpperCase();
-      setSpokenLetter(speechResult);
-      // Здесь можно добавить логику для определения громкости
+    recognition.current.onresult = (event) => {
+      const speechResult = event.results[event.resultIndex][0].transcript.toUpperCase();
+      if (speechResult.includes(selectedLetter)) {
+        // Увеличиваем шарик в зависимости от громкости
+        setBallSize((currentSize) => currentSize + 10);
+      }
     };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    setIsListening(true);
   };
 
   // Функция для остановки прослушивания
   const stopListening = () => {
+    if (recognition.current) {
+      recognition.current.stop();
+      recognition.current = null;
+    }
     setIsListening(false);
-    // Остановить распознавание голоса
   };
-
-  useEffect(() => {
-    // Здесь можно добавить логику для изменения размера шарика в зависимости от громкости
-  }, [volume]);
 
   return (
     <div>
       {selectedLetter ? (
         <div>
           <h1>Выбранная буква: {selectedLetter}</h1>
-          <button onClick={startListening}>Начать прослушивание</button>
-          <button onClick={stopListening} disabled={!isListening}>
-            Остановить прослушивание
+          <button onClick={startListening} disabled={isListening}>
+            Начать прослушивание
           </button>
-          <p>Произнесенная буква: {spokenLetter}</p>
-          {spokenLetter === selectedLetter && (
-            <div>
-              {/* Логика для увеличения шарика */}
-              <h2>Шарик увеличивается!</h2>
-            </div>
-          )}
-          {spokenLetter !== selectedLetter && (
-            <div>
-              {/* Логика для уменьшения шарика */}
-              <h2>Говорите букву {selectedLetter}.</h2>
-            </div>
-          )}
+          <button onClick={stopListening} disabled={!isListening}>
+            Закончить прослушивание
+          </button>
+          <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
+            {/* Шарик */}
+          </div>
         </div>
       ) : (
         <div>
