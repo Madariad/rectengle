@@ -11,9 +11,21 @@ const App = () => {
   useEffect(() => {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new window.SpeechRecognition();
+    const speechRecognitionList = new SpeechGrammarList();
+
+// Грамматика для распознавания только буквы 'a'
+    const grammar = '#JSGF V1.0; grammar letters; public <letter> = a ;';
+
+// Добавляем грамматику к списку
+    speechRecognitionList.addFromString(grammar, 1);
+
+// Устанавливаем грамматику для объекта распознавания речи
+    recognition.grammars = speechRecognitionList;
+
     recognition.interimResults = true;
     recognition.continuous = true; 
     recognition.lang = 'ru-RU';
+    
 
     recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
