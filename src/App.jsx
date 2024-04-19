@@ -9,20 +9,9 @@ const App = () => {
   const [IsA, setIsA] = useState('false'); 
 
   useEffect(() => {
-    const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
-    // const speechRecognitionList = new SpeechGrammarList();
-
-// Грамматика для распознавания только буквы 'a'
-    const grammar = '#JSGF V1.0; grammar letters; public <letter> = a ;';
-
-// Добавляем грамматику к списку
-    SpeechGrammarList.addFromString(grammar, 1);
-
-// Устанавливаем грамматику для объекта распознавания речи
-    recognition.grammars = speechRecognitionList;
-
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new window.SpeechRecognition();
+    
     recognition.interimResults = true;
     recognition.continuous = true; 
     recognition.lang = 'ru-RU';
