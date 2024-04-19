@@ -18,12 +18,12 @@ const App = () => {
       const transcript = Array.from(e.results)
         .map((result) => result[0])
         .map((result) => result.transcript)
-        .join("");
+        .join("")
+        .toLowerCase(); // Приводим к нижнему регистру
       setText(transcript); // Обновляем состояние текста
-      if (transcript == 'a') {
-        setIsA('True')
+      if (transcript.includes('a')) { // Используем includes вместо строгого сравнения
+        setIsA('True');
         setBallSize((currentSize) => currentSize + 10);
-
       }
     };
 
