@@ -6,7 +6,7 @@ const App = () => {
 
   const [ballSize, setBallSize] = useState(100); // Начальный размер шарика
 
-  const [IsA, setIsA] = useState(false); 
+  const [IsA, setIsA] = useState('false'); 
 
   useEffect(() => {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -21,7 +21,7 @@ const App = () => {
         .join("");
       setText(transcript); // Обновляем состояние текста
       if (transcript == 'a') {
-        setIsA(True)
+        setIsA('True')
         setBallSize((currentSize) => currentSize + 10);
 
       }
@@ -47,7 +47,8 @@ const App = () => {
       <button onClick={() => setIsListening(true)}>Начать прослушивание</button>
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
       <p>{text}</p>
-      {IsA}
+      <p>{IsA}</p>
+      
 
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
             {/* Шарик */}
