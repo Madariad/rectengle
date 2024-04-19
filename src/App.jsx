@@ -32,7 +32,7 @@ const App = () => {
         .toLowerCase();
       setText(transcript); 
        
-      setIsA(transcript.length)
+      setIsA(transcript.at(-1) === 'а'? 'true' : 'false');
       setIsA(arr);
       if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
         setBallSize((currentSize) => currentSize + 10);
