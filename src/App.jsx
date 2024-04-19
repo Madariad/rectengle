@@ -18,7 +18,10 @@ const App = () => {
         .map((result) => result.transcript)
         .join("");
       setText(transcript); // Обновляем состояние текста
-      setBallSize((currentSize) => currentSize + 10);
+      if (transcript === 'a') {
+        setBallSize((currentSize) => currentSize + 10);
+
+      }
     };
 
     if (isListening) {
