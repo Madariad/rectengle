@@ -21,7 +21,7 @@ const App = () => {
         .join("")
         .toLowerCase(); // Приводим к нижнему регистру
       setText(transcript); // Обновляем состояние текста
-      if (transcript.includes('a')) { // Используем includes вместо строгого сравнения
+      if (transcript.toLowerCase().includes('a')) { // Используем includes вместо строгого сравнения
         setIsA('True');
         setBallSize((currentSize) => currentSize + 10);
       }
