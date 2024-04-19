@@ -23,7 +23,7 @@ const App = () => {
 
 
 
- 
+   arr = []
     recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
         .map((result) => result[0])
@@ -32,7 +32,8 @@ const App = () => {
         .toLowerCase();
       setText(transcript); 
        
-      setIsA(typeof transcript);
+      arr.push(transcript);
+      setIsA(arr);
       if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
         setBallSize((currentSize) => currentSize + 10);
       }
