@@ -15,6 +15,10 @@ const App = () => {
     recognition.interimResults = true;
     recognition.continuous = true; 
     recognition.lang = 'ru-RU';
+
+    h = {
+      'a': () => setIsA('true'),
+    }
     
 
     recognition.onresult = (e) => {
@@ -24,6 +28,7 @@ const App = () => {
         .join("")
         .toLowerCase();
       setText(transcript); 
+      h[transcript] && h[transcript]();
       // setIsA(e);
       if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
         setBallSize((currentSize) => currentSize + 10);
