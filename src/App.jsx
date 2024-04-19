@@ -23,8 +23,8 @@ const App = () => {
 
 
 
-   arr = []
     recognition.onresult = (e) => {
+      arr = []
       const transcript = Array.from(e.results)
         .map((result) => result[0])
         .map((result) => result.transcript)
