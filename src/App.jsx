@@ -1,73 +1,59 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [text, setText] = useState(''); 
-  const [isListening, setIsListening] = useState(false); 
-
-  const [ballSize, setBallSize] = useState(100); 
-
-  const [IsA, setIsA] = useState('false'); 
+  const [text, setText] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [ballSize, setBallSize] = useState(100);
+  const [recognition, setRecognition] = useState(null);
 
   useEffect(() => {
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new window.SpeechRecognition();
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const speechRecognitionInstance = new SpeechRecognition();
+    setRecognition(speechRecognitionInstance);
+
+    const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
     const speechRecognitionList = new SpeechGrammarList();
 
-// Грамматика для распознавания только буквы 'a'
     const grammar = '#JSGF V1.0; grammar letters; public <letter> = a ;';
-
-// Добавляем грамматику к списку
     speechRecognitionList.addFromString(grammar, 1);
+    speechRecognitionInstance.grammars = speechRecognitionList;
 
-// Устанавливаем грамматику для объекта распознавания речи
-    recognition.grammars = speechRecognitionList;
+    speechRecognitionInstance.interimResults = true;
+    speechRecognitionInstance.continuous = true;
+    speechRecognitionInstance.lang = 'ru-RU';
 
-    recognition.interimResults = true;
-    recognition.continuous = true; 
-    recognition.lang = 'ru-RU';
-    
-
-    recognition.onresult = (e) => {
+    speechRecognitionInstance.onresult = (e) => {
       const transcript = Array.from(e.results)
         .map((result) => result[0])
         .map((result) => result.transcript)
         .join("")
         .toLowerCase();
-      setText(transcript); 
-      // setIsA(e);
-      if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
+      setText(transcript);
+      if (transcript.includes('a')) {
         setBallSize((currentSize) => currentSize + 10);
       }
     };
 
     if (isListening) {
-      recognition.start(); 
+      speechRecognitionInstance.start();
     }
 
-    recognition.onend = () => {
-      if (isListening) {
-        recognition.start(); 
-      }
-    };
-
     return () => {
-      recognition.stop(); 
+      speechRecognitionInstance.stop();
+      speechRecognitionInstance.onresult = null;
+      speechRecognitionInstance.onend = null;
     };
-  }, [isListening]); 
+  }, [isListening]);
 
   return (
     <div>
       <button onClick={() => setIsListening(true)}>Начать прослушивание</button>
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
       <p>{text}</p>
-
-      <p>{IsA}</p>
       <p>{ballSize}</p>
-      
-
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
-       
-          </div>
+        {/* Шарик */}
+      </div>
     </div>
   );
 };
