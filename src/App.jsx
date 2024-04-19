@@ -6,7 +6,12 @@ const App = () => {
 
   const [ballSize, setBallSize] = useState(100); 
 
-  const [IsA, setIsA] = useState('false'); 
+  const [IsA, setIsA] = useState('false');
+  
+  // data = {
+  //   'a': () => setIsA('true'),
+  // }
+  
 
   useEffect(() => {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -16,11 +21,9 @@ const App = () => {
     recognition.continuous = true; 
     recognition.lang = 'ru-RU';
 
-    h = {
-      'a': () => setIsA('true'),
-    }
-    
 
+
+ 
     recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
         .map((result) => result[0])
@@ -28,8 +31,8 @@ const App = () => {
         .join("")
         .toLowerCase();
       setText(transcript); 
-      h[transcript] && h[transcript]();
-      // setIsA(e);
+       
+      setIsA(typeof transcript);
       if (transcript == 'проверка' || transcript.indexOf('a') > 0) { 
         setBallSize((currentSize) => currentSize + 10);
       }
