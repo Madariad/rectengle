@@ -4,7 +4,7 @@ const App = () => {
   const [text, setText] = useState(''); 
   const [isListening, setIsListening] = useState(false); 
 
-  const [ballSize, setBallSize] = useState(100); 
+  const [ballSize, setBallSize] = useState(40); 
 
   const [IsA, setIsA] = useState('false');
   
