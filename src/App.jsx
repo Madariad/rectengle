@@ -6,6 +6,13 @@ const App = () => {
   const [ballSize, setBallSize] = useState(100);
   const [recognition, setRecognition] = useState(null);
 
+  const a = []
+
+  if (text) {
+    a.push(Array.from(text))
+
+  }
+
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const speechRecognitionInstance = new SpeechRecognition();
@@ -49,8 +56,9 @@ const App = () => {
     <div>
       <button onClick={() => setIsListening(true)}>Начать прослушивание</button>
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
-      <p>{text == 'a' ? 'y' : 'n'}</p>
+      <p>{text}</p>
       <p>{ballSize}</p>
+      <p>{a}</p>
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
         {/* Шарик */}
       </div>
