@@ -48,6 +48,7 @@ const App = () => {
       <button onClick={() => setIsListening(false)}>Закончить прослушивание</button>
       <p>{text}</p>
       <p>{IsA}</p>
+      <p>{ballSize}</p>
       
 
       <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red' }}>
