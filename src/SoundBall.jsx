@@ -4,7 +4,7 @@ import React from 'react';
 function SoundBall({ audioData }) {
   // Находим максимальное значение в массиве audioData
   const volume = Math.max(...audioData);
-  // Ограничиваем размер шарика, чтобы он не становился бесконечным
+  // Ограничиваем размер шарика, чтобы он не становился бесконечнымjkjkj
   const maxBallSize = 200; // Максимальный размер шарика
   const ballSize = Math.min(volume, maxBallSize); // Используем меньшее из двух значений
 
