@@ -43,7 +43,7 @@ const App = () => {
       speechRecognitionInstance.onresult = null;
       speechRecognitionInstance.onend = null;
     };
-  }, [isListening]);
+  }, []);
 
   return (
     <div>
