@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, Image } from 'react-bootstrap';
+import img from'./assets/img/img.webp';
 
 const App = () => {
   const [text, setText] = useState('');
   const [isListening, setIsListening] = useState(false);
-  const [ballSize, setBallSize] = useState(40);
+  const [ballSize, setBallSize] = useState(40); // Минимальный размер шарика
+  const minVolume = 5; // Минимальная громкость для изменения размера шарика
 
   function val() {
     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -26,8 +28,9 @@ const App = () => {
           }
           let averageVolume = sum / bufferLength;
 
-          // Обновляем размер шарика независимо от его текущего размера
-          setBallSize(averageVolume);
+          // Устанавливаем размер шарика с учетом минимальной громкости
+          const newSize = Math.max(minVolume, averageVolume);
+          setBallSize(newSize);
 
           setTimeout(updateVolume, 100);
         }
@@ -75,10 +78,11 @@ const App = () => {
   return (
     <Container className="p-3">
       <Row className="justify-content-md-center">
-        <Col md="auto">
+        <Col md={6} xs={12}>
           <Button variant="success" onClick={() => setIsListening(true)}>Начать прослушивание</Button>
           <Button variant="danger" onClick={() => setIsListening(false)}>Закончить прослушивание</Button>
           <p>{text}</p>
+          <Image src={img} style={{width: '100px'}} fluid />
           <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red', transition: 'width 0.5s, height 0.5s' }}>
           </div>
         </Col>
