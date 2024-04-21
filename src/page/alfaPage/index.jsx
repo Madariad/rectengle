@@ -79,20 +79,24 @@ const  alfaPage = () => {
   }, [isListening]);
 
   return (
-    <Container className="p-3">
-      {text == alfa ? ( <div className="">
-          Првильно продолжайте говорить букву {alfa}
-      </div>) : (<div>Говарите букву {alfa}</div>)}
-      <Row className="justify-content-md-center">
-        <Col md={6} xs={12}>
-          <Button variant="success" onClick={() => setIsListening(true)}>Начать прослушивание</Button>
-          <Button variant="danger" onClick={() => setIsListening(false)}>Закончить прослушивание</Button>
-          <p>{text}</p>
-          <Image src={img} style={{width: '100px'}} fluid />
-          <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red', transition: 'width 0.5s, height 0.5s' }}>
+    <Container>
+      <div style={{height: '100vh', paddingTop: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px'}}>
+          {text == alfa ? ( <div style={{width: '500px', padding: '20px', backgroundColor: 'red'}}>
+              Првильно продолжайте говорить букву {alfa}
+          </div>) : (<div style={{width: '500px', padding: '20px', backgroundColor: '#5885ad', color: 'InfoBackground'}}>Говарите букву: <span style={{color: 'yellow', fontWeight: 'bold'}}>{alfa}</span></div>)}
+          <div>
+            <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+              <div style={{height: '50vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <div style={{ width: ballSize, height: ballSize, borderRadius: '50%', background: 'red', transition: 'width 0.5s, height 0.5s'}}>
+                  </div>
+              </div>
+              <div style={{display: 'flex', gap: '30px'}}>
+                  <Button variant="success" onClick={() => setIsListening(true)}>Начать прослушивание</Button>
+                  <Button variant="danger" onClick={() => setIsListening(false)}>Закончить прослушивание</Button>
+              </div>
+            </div>
           </div>
-        </Col>
-      </Row>
+      </div>
     </Container>
   );
 };

@@ -2,7 +2,8 @@ import React from 'react'
 
 
 import AlfaPage from "@/page/alfaPage";
-import MainPage from "@/page/mainPage";
+import VoisePage from "@/page/voisePage";
+import ModulePage from '@/page/modulePage';
 
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
@@ -11,8 +12,9 @@ export default function App() {
   return (
 
     <Routes>
-      <Route path="/rectengle"  element={<MainPage />} />
-        <Route path="/rectengle/alfavit/:alfa" element={<AlfaPage />}/>
+      <Route path="/rectengle"  element={<ModulePage />} />
+      <Route path="/rectengle/module/:name" element={<VoisePage />}/>
+      <Route path="/rectengle/module/:name/alfavit/:alfa" element={<AlfaPage />}/>
     </Routes>
    
   )
