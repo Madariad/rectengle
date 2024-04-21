@@ -64,6 +64,8 @@ const  alfaPage = () => {
 
     if (isListening) {
       recognition.start();
+    } else {
+      recognition.stop();
     }
 
     recognition.onend = () => {
