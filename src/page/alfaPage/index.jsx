@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Row, Col, Image } from 'react-bootstrap';
-import img from'@/assets/img/img.webp';
 import { useParams } from "react-router-dom";
 
 const  alfaPage = () => {
@@ -9,7 +8,7 @@ const  alfaPage = () => {
   const [text, setText] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [ballSize, setBallSize] = useState(40); 
-  const minVolume = 40;
+  const minVolume = 10;
 
   function val() {
     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -60,7 +59,7 @@ const  alfaPage = () => {
         .toLowerCase();
       setText(transcript);
 
-      transcript.at(-1) === alfa ? val() : '';
+      transcript.at(-1) === alfa ? val() : val();
     };
 
     if (isListening) {
