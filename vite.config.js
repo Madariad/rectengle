@@ -10,5 +10,12 @@ export default defineConfig({
       '@': path.resolve(__dirname,'./src')
     }
   },
-  base: 'rectengle'
+  base: 'rectengle',
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `$injectedColor: orange;`,
+      },
+    },
+  },
 })
